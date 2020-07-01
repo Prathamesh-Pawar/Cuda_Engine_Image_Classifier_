@@ -1,0 +1,3 @@
+model_checkpoint_path: "C:/Users/PRATHAMESH/Deep_Learning/Adagrad/uu/model_tf.chkp"
+all_model_checkpoint_paths: "C:/Users/PRATHAMESH/Deep_Learning/Adagrad/uu/model_non_gpu.chkp"
+all_model_checkpoint_paths: "C:/Users/PRATHAMESH/Deep_Learning/Adagrad/uu/model_tf.chkp"

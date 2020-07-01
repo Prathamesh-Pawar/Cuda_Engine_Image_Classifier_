@@ -1,0 +1,813 @@
+version: 1
+descriptor_core_version: 1
+descriptors {
+  id: "tensorflow_extension"
+  version: 1
+}
+graphs {
+  id: "main"
+  nodes {
+    id: "output"
+    inputs: "MatMul_1"
+    inputs: "B4"
+    operation: "Binary"
+    fields {
+      key: "func"
+      value {
+        s: "add"
+      }
+    }
+  }
+  nodes {
+    id: "B4"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 10
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_B4"
+      }
+    }
+  }
+  nodes {
+    id: "MatMul_1"
+    inputs: "Relu_3"
+    inputs: "W6"
+    operation: "FullyConnected"
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_NC_CK"
+      }
+    }
+  }
+  nodes {
+    id: "W6"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 128
+          val: 10
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_W6"
+      }
+    }
+  }
+  nodes {
+    id: "Relu_3"
+    inputs: "Add"
+    operation: "Activation"
+    fields {
+      key: "func"
+      value {
+        s: "relu"
+      }
+    }
+  }
+  nodes {
+    id: "Add"
+    inputs: "MatMul"
+    inputs: "B3"
+    operation: "Binary"
+    fields {
+      key: "func"
+      value {
+        s: "add"
+      }
+    }
+  }
+  nodes {
+    id: "B3"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 128
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_B3"
+      }
+    }
+  }
+  nodes {
+    id: "MatMul"
+    inputs: "Reshape"
+    inputs: "W3"
+    operation: "FullyConnected"
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_NC_CK"
+      }
+    }
+  }
+  nodes {
+    id: "W3"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 2048
+          val: 128
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_W3"
+      }
+    }
+  }
+  nodes {
+    id: "Reshape"
+    inputs: "MaxPool_2"
+    inputs: "Reshape/shape"
+    operation: "Reshape"
+  }
+  nodes {
+    id: "Reshape/shape"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_INT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 2
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_Reshape/shape"
+      }
+    }
+  }
+  nodes {
+    id: "MaxPool_2"
+    inputs: "Relu_2"
+    operation: "Pool"
+    fields {
+      key: "func"
+      value {
+        s: "max"
+      }
+    }
+    fields {
+      key: "implicit_padding"
+      value {
+        s: "same"
+      }
+    }
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_N+C"
+      }
+    }
+    fields {
+      key: "kernel"
+      value {
+        i_list {
+          val: 2
+          val: 2
+        }
+      }
+    }
+    fields {
+      key: "strides"
+      value {
+        i_list {
+          val: 2
+          val: 2
+        }
+      }
+    }
+  }
+  nodes {
+    id: "Relu_2"
+    inputs: "BiasAdd_2"
+    operation: "Activation"
+    fields {
+      key: "func"
+      value {
+        s: "relu"
+      }
+    }
+  }
+  nodes {
+    id: "B2"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 128
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_B2"
+      }
+    }
+  }
+  nodes {
+    id: "BiasAdd_2"
+    inputs: "Conv2D_2"
+    inputs: "B2"
+    operation: "Binary"
+    fields {
+      key: "func"
+      value {
+        s: "add"
+      }
+    }
+  }
+  nodes {
+    id: "Conv2D_2"
+    inputs: "MaxPool_1"
+    inputs: "W2"
+    operation: "Conv"
+    fields {
+      key: "dilation"
+      value {
+        i_list {
+          val: 1
+          val: 1
+        }
+      }
+    }
+    fields {
+      key: "implicit_padding"
+      value {
+        s: "same"
+      }
+    }
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_N+C_+CK"
+      }
+    }
+    fields {
+      key: "strides"
+      value {
+        i_list {
+          val: 1
+          val: 1
+        }
+      }
+    }
+  }
+  nodes {
+    id: "W2"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 3
+          val: 3
+          val: 64
+          val: 128
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_W2"
+      }
+    }
+  }
+  nodes {
+    id: "MaxPool_1"
+    inputs: "Relu_1"
+    operation: "Pool"
+    fields {
+      key: "func"
+      value {
+        s: "max"
+      }
+    }
+    fields {
+      key: "implicit_padding"
+      value {
+        s: "same"
+      }
+    }
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_N+C"
+      }
+    }
+    fields {
+      key: "kernel"
+      value {
+        i_list {
+          val: 2
+          val: 2
+        }
+      }
+    }
+    fields {
+      key: "strides"
+      value {
+        i_list {
+          val: 2
+          val: 2
+        }
+      }
+    }
+  }
+  nodes {
+    id: "Relu_1"
+    inputs: "BiasAdd_1"
+    operation: "Activation"
+    fields {
+      key: "func"
+      value {
+        s: "relu"
+      }
+    }
+  }
+  nodes {
+    id: "B1"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 64
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_B1"
+      }
+    }
+  }
+  nodes {
+    id: "BiasAdd_1"
+    inputs: "Conv2D_1"
+    inputs: "B1"
+    operation: "Binary"
+    fields {
+      key: "func"
+      value {
+        s: "add"
+      }
+    }
+  }
+  nodes {
+    id: "Conv2D_1"
+    inputs: "MaxPool"
+    inputs: "W1"
+    operation: "Conv"
+    fields {
+      key: "dilation"
+      value {
+        i_list {
+          val: 1
+          val: 1
+        }
+      }
+    }
+    fields {
+      key: "implicit_padding"
+      value {
+        s: "same"
+      }
+    }
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_N+C_+CK"
+      }
+    }
+    fields {
+      key: "strides"
+      value {
+        i_list {
+          val: 1
+          val: 1
+        }
+      }
+    }
+  }
+  nodes {
+    id: "W1"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 3
+          val: 3
+          val: 32
+          val: 64
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_W1"
+      }
+    }
+  }
+  nodes {
+    id: "MaxPool"
+    inputs: "Relu"
+    operation: "Pool"
+    fields {
+      key: "func"
+      value {
+        s: "max"
+      }
+    }
+    fields {
+      key: "implicit_padding"
+      value {
+        s: "same"
+      }
+    }
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_N+C"
+      }
+    }
+    fields {
+      key: "kernel"
+      value {
+        i_list {
+          val: 2
+          val: 2
+        }
+      }
+    }
+    fields {
+      key: "strides"
+      value {
+        i_list {
+          val: 2
+          val: 2
+        }
+      }
+    }
+  }
+  nodes {
+    id: "Relu"
+    inputs: "BiasAdd"
+    operation: "Activation"
+    fields {
+      key: "func"
+      value {
+        s: "relu"
+      }
+    }
+  }
+  nodes {
+    id: "B0"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 32
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_B0"
+      }
+    }
+  }
+  nodes {
+    id: "BiasAdd"
+    inputs: "Conv2D"
+    inputs: "B0"
+    operation: "Binary"
+    fields {
+      key: "func"
+      value {
+        s: "add"
+      }
+    }
+  }
+  nodes {
+    id: "Conv2D"
+    inputs: "Placeholder"
+    inputs: "W0"
+    operation: "Conv"
+    fields {
+      key: "dilation"
+      value {
+        i_list {
+          val: 1
+          val: 1
+        }
+      }
+    }
+    fields {
+      key: "implicit_padding"
+      value {
+        s: "same"
+      }
+    }
+    fields {
+      key: "inputs_orders"
+      value {
+        ref: "orders_N+C_+CK"
+      }
+    }
+    fields {
+      key: "strides"
+      value {
+        i_list {
+          val: 1
+          val: 1
+        }
+      }
+    }
+  }
+  nodes {
+    id: "W0"
+    operation: "Const"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: 3
+          val: 3
+          val: 1
+          val: 32
+        }
+      }
+    }
+    fields {
+      key: "values"
+      value {
+        ref: "weights_W0"
+      }
+    }
+  }
+  nodes {
+    id: "Placeholder"
+    operation: "Input"
+    fields {
+      key: "dtype"
+      value {
+        dtype: DT_FLOAT32
+      }
+    }
+    fields {
+      key: "shape"
+      value {
+        i_list {
+          val: -1
+          val: 28
+          val: 28
+          val: 1
+        }
+      }
+    }
+  }
+  nodes {
+    id: "MarkOutput_0"
+    inputs: "output"
+    operation: "MarkOutput"
+  }
+}
+referenced_data {
+  key: "orders_N+C"
+  value {
+    dim_orders_list {
+      val {
+        orders {
+          key: -1
+          value {
+            val: 0
+            val: 2
+            val: 2147483647
+            val: 1
+          }
+        }
+      }
+    }
+  }
+}
+referenced_data {
+  key: "orders_N+C_+CK"
+  value {
+    dim_orders_list {
+      val {
+        orders {
+          key: -1
+          value {
+            val: 0
+            val: 2
+            val: 2147483647
+            val: 1
+          }
+        }
+      }
+      val {
+        orders {
+          key: -1
+          value {
+            val: 2
+            val: 2147483647
+            val: 1
+            val: 0
+          }
+        }
+      }
+    }
+  }
+}
+referenced_data {
+  key: "orders_NC_CK"
+  value {
+    dim_orders_list {
+      val {
+        orders {
+          key: -1
+          value {
+            val: 0
+            val: 1
+          }
+        }
+      }
+      val {
+        orders {
+          key: -1
+          value {
+            val: 1
+            val: 0
+          }
+        }
+      }
+    }
+  }
+}
+referenced_data {
+  key: "weights_B0"
+  value {
+    blob: "(...128 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_B1"
+  value {
+    blob: "(...256 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_B2"
+  value {
+    blob: "(...512 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_B3"
+  value {
+    blob: "(...512 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_B4"
+  value {
+    blob: "(...40 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_Reshape/shape"
+  value {
+    blob: "\377\377\377\377\000\010\000\000"
+  }
+}
+referenced_data {
+  key: "weights_W0"
+  value {
+    blob: "(...1152 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_W1"
+  value {
+    blob: "(...73728 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_W2"
+  value {
+    blob: "(...294912 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_W3"
+  value {
+    blob: "(...1048576 bytes skipped...)"
+  }
+}
+referenced_data {
+  key: "weights_W6"
+  value {
+    blob: "(...5120 bytes skipped...)"
+  }
+}
