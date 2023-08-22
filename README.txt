@@ -1,4 +1,6 @@
-
+This project is an attempt to understand how we can apply an ML algorithm in pre-existing systems using C++ application to make it practical. 
+We train a simple image classifier in python using tensorflow. After which we design a C++ code to load the model and classify test images.
+We hypothesize that using a .exe to use a ML model to classify images will increase the latency of the model and make it practical to use.
 
 Specs:
 CUDA 10.0
